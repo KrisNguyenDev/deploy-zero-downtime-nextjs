@@ -10,12 +10,17 @@ if [ -d "$TEMP_DIR" ]; then
     rm -rf "$TEMP_DIR"
 fi
 
-echo "Đang tạo thư mục $TEMP_DIR..."
-mkdir "$TEMP_DIR"
+# Tạo và copy nội dung từ .next sang thư mục tạm
+echo "Đang tạo thư mục $TEMP_DIR và copy nội dung từ $DIR..."
+if [ -d "$DIR" ]; then
+    cp -r "$DIR" "$TEMP_DIR"
+else
+    mkdir "$TEMP_DIR"
+fi
 
-# Cài đặt các gói npm
-echo "Đang cài đặt các gói npm..."
-if npm install; then
+# Cài đặt các gói yarn
+echo "Đang cài đặt các gói yarn..."
+if yarn install; then
     echo "Cài đặt hoàn tất thành công."
 else
     echo "Cài đặt thất bại. Hủy bỏ quá trình."
@@ -24,7 +29,7 @@ fi
 
 # Build Next.js
 echo "Đang build Next.js..."
-if npm run build; then
+if yarn build; then
     echo "Build hoàn tất thành công."
 else
     echo "Build thất bại. Hủy bỏ quá trình."
